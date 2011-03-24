@@ -17,6 +17,36 @@ def load(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data
     _loader = loader_class()
     _loader.load(filename, url)
 
+def get(id):
+    u"""get symbol via id"""
+    symbol_dictionary = _loader.symbol_dictionary
+    return symbol_dictionary[id]
+
+def translate_char(source_char, carrier, reverse=False, encoding=False):
+    u"""translate unicode emoji character to unicode carrier emoji character (or reverse)
+    
+    Attributes:
+        source_char   - emoji character. it must be unicode instance or have to set `encoding` attribute to decode
+        carrier       - the target carrier
+        reverse       - if you want to translate CARRIER => UNICODE, turn it True
+        encoding      - encoding name for decode (Default is None)
+    
+    """
+    if not isinstance(source_char, unicode) and encoding:
+        source_char = source_char.decode(encoding, 'replace')
+    elif not isinstance(source_char, unicode):
+        raise AttributeError(u"`source_char` must be decoded to `unicode` or set `encoding` attribute to decode `source_char`")
+    if len(source_char) > 1:
+        raise AttributeError(u"`source_char` must be a letter. use `translate` method insted.")
+    translate_dictionary = _loader.translate_dictionaries[carrier]
+    if not reverse:
+        translate_dictionary = translate_dictionary[0]
+    else:
+        translate_dictionary = translate_dictionary[1]
+    if not translate_dictionary:
+        return source_char
+    return translate_dictionary.get(source_char, source_char)
+
 def translate(source, carrier, reverse=False, encoding=None):
     u"""translate unicode text contain emoji character to unicode carrier text (or reverse)
     
@@ -42,9 +72,17 @@ def translate(source, carrier, reverse=False, encoding=None):
     if not regex_pattern or not translate_dictionary:
         return source
     return regex_pattern.sub(lambda m: translate_dictionary[m.group()], source)
+#    return regex_pattern.sub(lambda m: translate_dictionary.get(m.group(), m.group()), source)
 
-TEXT_TRANSLATE_PROFILE = {'carrier': 'text', 'encoding': 'utf8'}
-GOOGLE_TRANSLATE_PROFILE = {'carrier': 'google', 'encoding': 'utf8'}
-DOCOMO_TRANSLATE_PROFILE = {'carrier': 'docomo', 'encoding': 'cp932'}
-KDDI_TRANSLATE_PROFILE = {'carrier': 'kddi', 'encoding': 'cp932'}
-SOFTBANK_TRANSLATE_PROFILE= {'carrier': 'softbank', 'encoding': 'cp932'}
+def _code_to_profile(code_class):
+    carrier = code_class._name
+    encoding = code_class._encoding
+    return {'carrier': carrier, 'encoding': encoding}
+TEXT_TRANSLATE_PROFILE          = {'carrier': 'text', 'encoding': 'utf8'}
+DOCOMO_IMG_TRANSLATE_PROFILE    = {'carrier': 'docomo_img', 'encoding': 'utf8'}
+KDDI_IMG_TRANSLATE_PROFILE      = {'carrier': 'kddi_img', 'encoding': 'utf8'}
+SOFTBANK_IMG_TRANSLATE_PROFILE  = {'carrier': 'softbank_img', 'encoding': 'utf8'}
+GOOGLE_TRANSLATE_PROFILE        = _code_to_profile(code.Google)
+DOCOMO_TRANSLATE_PROFILE        = _code_to_profile(code.DoCoMo)
+KDDI_TRANSLATE_PROFILE          = _code_to_profile(code.KDDI)
+SOFTBANK_TRANSLATE_PROFILE      = _code_to_profile(code.SoftBank)

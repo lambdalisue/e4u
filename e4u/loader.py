@@ -13,6 +13,7 @@ from symbol import Symbol
 class Loader(object):
     # Properties
     symbols = property(lambda self: self._symbols)
+    symbol_dictionary = property(lambda self: self._symbol_dictionary)
     regex_patterns = property(lambda self: self._regex_patterns)
     translate_dictionaries = property(lambda self: self._translate_dictionaries)
     
@@ -20,9 +21,13 @@ class Loader(object):
     def _load(self, xml):
         soup = BeautifulStoneSoup(xml)('e')
         symbols = []
+        symbol_dictionary = {}
         for e in soup:
-            symbols.append(Symbol(e))
+            s = Symbol(e)
+            symbols.append(s)
+            symbol_dictionary[s.id] = s
         self._symbols = symbols
+        self._symbol_dictionary = symbol_dictionary
         self._regex_patterns = create_regex_patterns(self.symbols)
         self._translate_dictionaries = create_translate_dictionaries(self.symbols)
         

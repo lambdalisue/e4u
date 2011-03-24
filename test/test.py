@@ -57,11 +57,21 @@ class KDDITestCase(unittest.TestCase, TestCaseAbstract):
     _carrier_contents = "\xF6\x60 \xF6\x65 \xF6\x64".decode('cp932', 'replace')
     _unicode_contents = u"\u2600 \u2601 \u2614"
     _encoding = 'cp932'
+    
+    def test_birthday(self):
+        symbol = e4u.get("511")
+        self.assertEqual(symbol.docomo.unicode, u"\uE686")
+        self.assertEqual(symbol.kddi.unicode, u"\uE5A0")
+        self.assertEqual(symbol.softbank.unicode, u"\uE34B")
+        
+        for s in e4u._loader.symbols:
+            if s.unicode.unicode == u"\uE5A0":
+                print "found"
 class SoftBankTestCase(unittest.TestCase, TestCaseAbstract):
     _carrier = 'softbank'
-    _carrier_contents = "\xF9\x8B \xF9\x8A \xF9\x8C".decode('cp932', 'replace')
+    _carrier_contents = u"\uE04A \uE049 \uE04B"
     _unicode_contents = u"\u2600 \u2601 \u2614"
-    _encoding = 'cp932'
+    _encoding = None
     
     def test_conversion(self):
         pass
