@@ -1,0 +1,57 @@
+Introduction
+=================================================
+Googleが先頭になっておこなっている絵文字をUnicode化するプロジェクトで
+(emoji4unicode)[http://code.google.com/p/emoji4unicode/]というのがあります。
+
+ここのソースコードがPythonで書かれているのでPythonライブラリとして使えるのかと思ったら
+あまりライブラリ向きの書き方をしていなかったので、このemoji4unicodeで使用している(更新している)
+`emoji4unicode.xml`から絵文字変換テーブルなどを自動的に作成してデバイス間の変換を行うライブラリ
+を作りました。
+
+現在プロトタイプなので使用する場合は注意してください。
+
+ライブラリ作成にあたって`emoji4unicode`のソースコードおよび`django-bpmobile`のソースコードを
+参考にさせていただきましたのでここでお礼を申し上げます。
+
+Install
+=================================================
+
+	sudo pip install -e git://github.com/alisue/e4u.git#egg=e4u
+
+
+Required (Automatically installed)
+=================================================
++ BeautifulSoup
+
+
+How to use
+=================================================
+流れとしては
+
+1. `e4u.load()`で`emoji4unicode.xml`からデータを読み込んでくる
+2. `e4u.translate()`で絵文字を含む文字列を相互変換する
+
+となっています。サンプルコードを以下に載せます。
+
+	>>> import e4u
+	>>> e4u.load()
+	>>> carrier_contents = "\xF8\x9F \xF8\xA0 \xF8\xA1"		# DoCoMo絵文字で左から「太陽」「雲」「雨」
+	>>> unicode_contents = u"\u2600 \u2601 \u2614"			# Unicode絵文字で左から「太陽」「雲」「雨」
+	
+	>>> # DoCoMo => Unicode
+	>>> contents = carrier_contents
+	>>> expected = unicode_contents
+	>>> # contentsのエンコードはUnicodeかcp932である必要があります(sjisだと絵文字情報が失われる)
+	>>> result = e4u.translate(contents, **e4u.DOCOMO_TRANSLATE_PROFILE)
+	>>> # 戻り値はUnicode型
+	>>> assert result == expected 
+	
+	>>> # Unicode => DoCoMo
+	>>> contents = unicode_contents
+	>>> expected = carrier_contents
+	>>> # 逆変換なので`reverse=True`にする
+	>>> result = e4u.translate(contents, reverse=True, **e4u.DOCOMO_TRANSLATE_PROFILE)
+	>>> # 戻り値はUnicode型
+	>>> # 内包する絵文字はShift-JISの物をcp932でUnicode化しているため
+	>>> # デバイスで表示させる前にcp932にエンコードする必要あり
+	>>> assert result == expected
