@@ -12,10 +12,19 @@ import symbol
 _loader = None
 
 def load(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader):
-    u"""load google's `emoji4unicode` project's xml file. must call this method first to use `e4u` library."""
+    u"""load google's `emoji4unicode` project's xml file. must call this method first to use `e4u` library. this method never work twice if you want to reload, use `e4u.reload()` insted."""
+    if not has_loaded():
+        reload(filename, url, loader_class)
+        
+def reload(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader):
+    u"""reload google's `emoji4unicode` project's xml file. must call this method first to use `e4u` library."""
     global _loader
     _loader = loader_class()
     _loader.load(filename, url)
+
+def has_loaded():
+    u"""get has `e4u.load()` method called or not."""
+    return _loader != None
 
 def get(id):
     u"""get symbol via id"""

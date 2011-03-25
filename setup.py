@@ -15,7 +15,7 @@ def read(filename):
 setup(
         name="e4u",
         version=version,
-        description = "emoji4unicode project wrapper library",
+        description = "Python's emoji conversion (unicode emoji <=> carrier's emoji) library (emoji4unicode project wrapper library)",
         long_description=read('README.mkd'),
         classifiers = [
             'Intended Audience :: Developers',
@@ -30,8 +30,7 @@ setup(
         download_url = r"https://github.com/alisue/e4u/tarball/master",
         license = 'BSD',
         packages = find_packages(),
-        #include_package_data = True,
+        include_package_data = True,
         zip_safe = True,
         install_requires=['setuptools', 'BeautifulSoup'],
 )
-

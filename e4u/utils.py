@@ -22,7 +22,8 @@ def code_to_sjis(code):
     if code and isinstance(code, basestring):
         clean_code = code.replace('>', '')
         if clean_code:
-            return "".join([chr(int("0x%c%c"%(a, b), 16)) for a, b in izip(code[0::2], code[1::2])])
+            _code_to_sjis_char = lambda c: ''.join([chr(int("%c%c"%(a, b), 16)) for a, b in izip(c[0::2], c[1::2])])
+            return ''.join([_code_to_sjis_char(code_char) for code_char in clean_code.split('+') if code_char])
     return None
 def unicode_to_code(uni):
     if not uni:
@@ -89,13 +90,6 @@ def create_translate_dictionaries(symbols):
     attribute and unicode formatted is `usjis` attribute.)
         
     """
-    def image(c):
-        if isinstance(c.image, (tuple, list)):
-            img = r"""<img src="%s" alt="%s" style="width:1em; height:1em;" />"""
-            return "".join([img % (x, c.fallback) for x in c.image])
-        else:
-            return c.fallback
-            
     unicode_to_text = {}
     unicode_to_docomo_img = {}
     unicode_to_kddi_img = {}
@@ -111,9 +105,9 @@ def create_translate_dictionaries(symbols):
     for x in symbols:
         if x.unicode.keyable:
             unicode_to_text[unicode(x.unicode)] = x.unicode.fallback
-            unicode_to_docomo_img[unicode(x.unicode)] = image(x.docomo)
-            unicode_to_kddi_img[unicode(x.unicode)] = image(x.kddi)
-            unicode_to_softbank_img[unicode(x.unicode)] = image(x.softbank)
+            unicode_to_docomo_img[unicode(x.unicode)] = x.docomo.thumbnail
+            unicode_to_kddi_img[unicode(x.unicode)] = x.kddi.thumbnail
+            unicode_to_softbank_img[unicode(x.unicode)] = x.softbank.thumbnail
             unicode_to_google[unicode(x.unicode)] = unicode(x.google)
             unicode_to_docomo[unicode(x.unicode)] = unicode(x.docomo)
             unicode_to_kddi[unicode(x.unicode)] = unicode(x.kddi)
