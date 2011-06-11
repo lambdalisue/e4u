@@ -6,7 +6,7 @@
 #
 from setuptools import setup, find_packages
 
-version = "0.1rc2"
+version = "0.1rc3"
 
 def read(filename):
     import os.path
@@ -29,7 +29,7 @@ setup(
         url=r"https://github.com/lambdalisue/e4u",
         download_url = r"https://github.com/lambdalisue/e4u/tarball/master",
         license = 'BSD',
-        packages = find_packages(),
+        packages = find_packages(exclude=["test","utils"]),
         include_package_data = True,
         zip_safe = True,
         install_requires=['setuptools', 'BeautifulSoup'],
