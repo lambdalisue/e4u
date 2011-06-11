@@ -6,7 +6,7 @@
 #
 from setuptools import setup, find_packages
 
-version = "0.1rc1"
+version = "0.1rc2"
 
 def read(filename):
     import os.path
@@ -16,7 +16,7 @@ setup(
         name="e4u",
         version=version,
         description = "Python's emoji conversion (unicode emoji <=> carrier's emoji) library (emoji4unicode project wrapper library)",
-        long_description=read('README.mkd'),
+        long_description=read('README.rst'),
         classifiers = [
             'Intended Audience :: Developers',
             'License :: OSI Approved :: BSD License',
@@ -25,9 +25,9 @@ setup(
         ],
         keywords = "emoji emoji4unicode mobile",
         author = "Alisue",
-        author_email = "alisue@hashnote.net",
-        url=r"https://github.com/alisue/e4u",
-        download_url = r"https://github.com/alisue/e4u/tarball/master",
+        author_email = "lambdalisue@hashnote.net",
+        url=r"https://github.com/lambdalisue/e4u",
+        download_url = r"https://github.com/lambdalisue/e4u/tarball/master",
         license = 'BSD',
         packages = find_packages(),
         include_package_data = True,
