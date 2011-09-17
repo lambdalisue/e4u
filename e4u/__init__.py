@@ -11,13 +11,19 @@ import symbol
 
 _loader = None
 
-def load(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader):
+def load(filename=None,
+        url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml",
+        loader_class=None):
     u"""load google's `emoji4unicode` project's xml file. must call this method first to use `e4u` library. this method never work twice if you want to reload, use `e4u.reload()` insted."""
     if not has_loaded():
         reload(filename, url, loader_class)
         
-def reload(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader):
+def reload(filename=None,
+        url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml",
+        loader_class=None):
     u"""reload google's `emoji4unicode` project's xml file. must call this method first to use `e4u` library."""
+    if loader_class is None:
+        loader_class = loader.Loader
     global _loader
     _loader = loader_class()
     _loader.load(filename, url)
