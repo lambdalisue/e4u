@@ -30,7 +30,10 @@ def get_docomo_thumbnail_urls(docomo, base_url=r"http://www.nttdocomo.co.jp/serv
     urls = []
     for code in docomo.code.split('+'):
         code = int(code, 16)
-        category = 'extention' if code >= 0xE70C else 'basic'
+        if code >= 0xE70C:
+            category = 'extention'
+        else:
+            category = 'basic'
         range = get_range_from_code(code, _code_to_docomo_id_ranges)
         offset = code - range[0]
         number = range[2] + offset
