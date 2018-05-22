@@ -1,4 +1,4 @@
-``e4u`` library is bundle library for `emoji4unicode <http://code.google.com/p/emoji4unicode/>`_
+``e4u`` library is bundle library for `emoji4unicode <https://github.com/googlei18n/emoji4unicode/>`_
 
 it is for handling unicode emoji and carrier's emoji. the main feature is
 
@@ -32,7 +32,7 @@ This library use ``emoji4unicode.xml`` to create conversion table of emoji.
 So you have to load it from filesystem or Internet. ``e4u.load()`` method
 load it from google code's trunk url and recommended. if you cannot connect
 to internet, use ``e4u.load(file=r"some/path/emoji4unicode.xml")`` insted. The
-``emoji4unicode.xml`` is found on http://code.google.com/p/emoji4unicode/source/browse/trunk/data/emoji4unicode.xml
+``emoji4unicode.xml`` is found on https://github.com/googlei18n/emoji4unicode/blob/master/data/emoji4unicode.xml
 
 Once you load ``emoji4unicode.xml``, you can translate emoji with ``e4u.translate()`` method.
 To translate carrier's emoji to unicode emoji, use the method like ``contents = e4u.translate(contents, **e4u.DOCOMO_TRANSLATE_PROFILE)``
@@ -80,10 +80,10 @@ the ``e4u.translate()`` method is
 Methods
 ==================================================
 
-``e4u.load(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader)``
+``e4u.load(filename=None, url=r"https://raw.githubusercontent.com/googlei18n/emoji4unicode/master/data/emoji4unicode.xml", loader_class=loader.Loader)``
     to load emoji4unicode.xml and build internal conversion table. this method never affect twice. use ``e4u.reload()`` insted to reloading library.
 
-``e4u.reload(filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml", loader_class=loader.Loader)``
+``e4u.reload(filename=None, url=r"https://raw.githubusercontent.com/googlei18n/emoji4unicode/master/data/emoji4unicode.xml", loader_class=loader.Loader)``
     force to reload emoji4unicode.xml, use ``e4u.load()`` method insted for general use.
 
 ``e4u.has_loaded()``
@@ -93,7 +93,7 @@ Methods
         import e4u
         if not e4u.has_loaded():
             e4u.reload()
-        
+
         # smarter
         import e4u
         e4u.load()
@@ -108,4 +108,3 @@ Methods
 ``e4u.translate_char(source_char, carrier, reverse=False, encoding=None)``
     translate unicode emoji char to carrier's emoji char. faster than ``e4u.translate()``
     method but cannot handle text. use it for letter conversion. 
-	
