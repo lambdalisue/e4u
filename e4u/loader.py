@@ -32,7 +32,7 @@ class Loader(object):
         self._translate_dictionaries = create_translate_dictionaries(self.symbols)
         
         
-    def load(self, filename=None, url=r"http://emoji4unicode.googlecode.com/svn/trunk/data/emoji4unicode.xml"):
+    def load(self, filename=None, url=r"https://raw.githubusercontent.com/googlei18n/emoji4unicode/master/data/emoji4unicode.xml"):
         if filename:
             xml = open(filename, 'r').read()
         else:

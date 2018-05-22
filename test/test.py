@@ -7,6 +7,8 @@
 import unittest
 import e4u
 
+e4u.load()
+
 DISPLAY_INFO = False
 
 class TestCaseAbstract(object):
